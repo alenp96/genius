@@ -169,75 +169,68 @@ Remember, your purpose is to be a supportive guide through the challenging journ
   }
 
   return (
- 
     <div className="mt-6">
-    <Heading
+      <Heading
         title="Conversation"
         description="Our most advanced conversation model."
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
       />
-        <div className="px-4 lg:px-8">
+      <div className="px-4 lg:px-8">
+        {sub ? (
+          <>
+            <Formik
+              initialValues={{ name: '' }}
+              onSubmit={(values, actions) => {
+                setTimeout(() => {
+                  FormAction(values.name)
+                  actions.setSubmitting(false)
+                }, 1000)
+              }}
+            >
+              {(props) => (
+                <Form className="
+                  rounded-lg 
+                  border 
+                  w-full 
+                  p-4 
+                  px-3 
+                  md:px-6 
+                  focus-within:shadow-sm
+                  flex
+                  flex-col
+                  sm:flex-row
+                  gap-2
+                  items-center
+                ">
+                  <Field name='name'>
+                    {({ field, form }) => (
+                      <Input 
+                        {...field} 
+                        placeholder="How are you feeling today?" 
+                        className="flex-grow border-black"
+                      />
+                    )}
+                  </Field>
+                  <Button
+                    type='submit'
+                    disabled={props.isSubmitting}
+                    className="w-full sm:w-auto"
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              )}
+            </Formik>
 
-        {sub ? (<>        <div>
-          <Formik
-      initialValues={{ name: '' }}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          FormAction(values.name)
-          actions.setSubmitting(false)
-        }, 1000)
-      }}
-    >
-      {(props) => (
-        <Form     className="
-        rounded-lg 
-        border 
-        w-full 
-        p-4 
-        px-3 
-        md:px-6 
-        focus-within:shadow-sm
-        grid
-      grid-cols-2
-        gap-6
-      ">
-          <Field style={{ width:'140%'}} name='name' >
-            {({ field, form }:any) => (
-              <FormControl isInvalid={form.errors.name && form.touched.name}>
-              
-                <Input {...field}  placeholder="How are you feeling today?" style={{ width:'140%'}} className="border-black md:w-full"/>
-                <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-              </FormControl>
-            )}
-          </Field>
-          <Button
-          //@ts-ignore
-            // mt={4}
-            style={{marginLeft:'40%' ,width:'20%'}}
-             //@ts-ignore
-            colorScheme='teal'
-            disabled={disabled}
-            isLoading={props.isSubmitting}
-            type='submit'
-          >
-            Submit
-          </Button>
-        </Form>
-      )}
-    </Formik>
-        </div>
-          <div className="space-y-4 mt-4">
-            {isLoading && (
-              <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
-                <Loader />
-              </div>
-            )}
-            {messages.length === 0 && !isLoading && (
-              <Empty label="No conversation started." />
-            )}
-                   {messages.length === 0 && !isLoading && (
+        <div className="space-y-4 mt-4">
+              {isLoading && (
+                <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
+                  <Loader />
+                </div>
+              )}
+              {messages.length === 0 && !isLoading && (
                 <div className="p-8 rounded-lg w-full bg-muted">
                   <p>Hi there. I&apos;m here to listen and offer support during this challenging time. Feel free to tell me about your situation – what happened with your breakup? I&apos;m here to help you process your feelings and thoughts. There&apos;s no judgment, just a space for you to express yourself. Whenever you&apos;re ready, go ahead and share your story.</p>
                   <Text fontSize="xs" color="gray.500" mt={2}>
@@ -245,6 +238,7 @@ Remember, your purpose is to be a supportive guide through the challenging journ
                   </Text>
                 </div>
               )}
+
             <div className="flex flex-col-reverse gap-y-4">
               {messages.map((message) => (
                 <div
